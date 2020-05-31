@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  postgres_db:
+    image: postgres
+    container_name: mypostgres
+    environment:
+      POSTGRES_USER: mt
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: blogapp
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domail.com
+      PGADMIN_DEFAULT_PASSWORD: SuperSecret
+      PGADMIN_LISTEN_PORT:  80
+    ports:
+      - 8080:80
+    volumes:
+      - type: volume
+        source: pgadmin_data
+        target: /var/lib/pgadmin
+    links:
+      - postgres_db:pgsql-server
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+
